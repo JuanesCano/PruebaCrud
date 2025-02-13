@@ -5,7 +5,7 @@ const postCtrl = {};
 
 postCtrl.getPosts = async (req, reply) => {
     try {
-        const post = await postModel.find().populate({path: "user", select: "name"}).sort({createdAt: -1});
+        const post = await postModel.find().populate({path: "user", select: "name id"}).sort({createdAt: -1});
         response(reply, 200, true, post, "Posts obtenidos correctamente");
     } catch (error) {
         response(reply, 500, false, "", error.message);
