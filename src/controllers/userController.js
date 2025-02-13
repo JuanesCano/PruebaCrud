@@ -7,7 +7,7 @@ const userCtrl = {};
 
 userCtrl.register = async (req, reply) => {
     try {
-        const {email, name, password, salary, entry_date} = req.body;
+        const {email, name, password, salary, entry_date, role} = req.body;
         const user = await userModel.findOne({email});
         
         if(user){
@@ -16,7 +16,7 @@ userCtrl.register = async (req, reply) => {
 
         const passwordEncrypt = encryptPassword(password);
 
-        const newUser = new userModel({email,name, password: passwordEncrypt, salary, entry_date});
+        const newUser = new userModel({email, name, password: passwordEncrypt, salary, entry_date, role});
 
         await newUser.save();
 

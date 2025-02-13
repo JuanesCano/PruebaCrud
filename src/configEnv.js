@@ -1,3 +1,4 @@
+
 const schemaEnv = {
     type: 'object',
     required: ['PORT', 'HOST', 'MONGO_URI', 'SECRET_JWT'],

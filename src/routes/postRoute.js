@@ -1,20 +1,20 @@
 import postCtrl from "../controllers/postController.js";
-import { verifyToken } from "../middleware/auth.js";
+import { validRoles, verifyRoles, verifyToken } from "../middleware/auth.js";
 
 const middleware = (req, reply, done) => {
     verifyToken(req, reply, done);
 };
 
 const postRoutes = (fastify, opts, done) => {
-    fastify.get("/", {preHandler: [middleware]}, postCtrl.getPosts);
+    fastify.get("/", {preHandler: [verifyToken,  verifyRoles([validRoles.admin])]}, postCtrl.getPosts);
 
-    fastify.get("/:id", {preHandler: [middleware]}, postCtrl.listOne);
+    fastify.get("/:id", {preHandler: [verifyToken, verifyRoles([validRoles.admin])]}, postCtrl.listOne);
 
-    fastify.post("/addPost", {preHandler: [middleware]}, postCtrl.addPost);
+    fastify.post("/addPost", {preHandler: [verifyToken, verifyRoles([validRoles.admin, validRoles.user])]}, postCtrl.addPost);
 
-    fastify.put("/updatePost", {preHandler: [middleware]}, postCtrl.updatePost);
+    fastify.put("/updatePost", {preHandler: [verifyToken, verifyRoles([validRoles.admin])]}, postCtrl.updatePost);
 
-    fastify.delete("/deletePost", {preHandler: [middleware]}, postCtrl.deletePost);
+    fastify.delete("/deletePost", {preHandler: [verifyToken, verifyRoles([validRoles.admin])]}, postCtrl.deletePost);
 
     done();
 };
