@@ -7,7 +7,7 @@ const userCtrl = {};
 
 userCtrl.register = async (req, reply) => {
     try {
-        const {email, name, password, salary, entry_date} = req.body;
+        const {email, name, password, salary, entry_date, role} = req.body;
         const user = await userModel.findOne({email});
         
         if(user){
@@ -16,13 +16,13 @@ userCtrl.register = async (req, reply) => {
 
         const passwordEncrypt = encryptPassword(password);
 
-        const newUser = new userModel({email,name, password: passwordEncrypt, salary, entry_date});
+        const newUser = new userModel({email,name, password: passwordEncrypt, salary, entry_date, role});
 
         await newUser.save();
 
         const token = generateToken({user: newUser._id});
 
-        response(reply, 201, true, {...newUser._doc, token, password: null}, "Usuario creado correctamente");
+        response(reply, 201, true, {...newUser._doc, token, password: null, role}, "Usuario creado correctamente");
     } catch (error) {
         response(reply, 500, false, "", error.message);
     }

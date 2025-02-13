@@ -27,6 +27,12 @@ const userSchema = new Schema ({
     password: {
         type: String,
         required: [true, "El campo password es requerido"]
+    },
+
+    role: {
+        type: String,
+        enum: ["admin", "user"],
+        default: "user"
     }
 },
 {
