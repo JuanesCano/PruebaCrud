@@ -40,7 +40,7 @@ const userSchema = new Schema ({
 });
 
 userSchema.methods.matchPassword = function (password) {
-  return bcrypt.compare(password, this.password);
+  return bcrypt.compareSync(password, this.password);
 };
 
 export const userModel = model("user", userSchema);
