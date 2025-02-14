@@ -39,7 +39,7 @@ const userSchema = new Schema ({
     timestamps: true
 });
 
-userSchema.methods.matchPassword = async function (password) {
+userSchema.methods.matchPassword = function (password) {
   return bcrypt.compare(password, this.password);
 };
 

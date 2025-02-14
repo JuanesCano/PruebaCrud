@@ -32,7 +32,7 @@ postCtrl.addPost = async (req, reply) => {
         const {title, description} = req.body;
         const newPost = new postModel ({title, description, user: req.userId});
         
-        await newPost.createdAt(newPost);
+        await newPost.save();
         response(reply, 201, true, newPost, "Post creado correctamente");
     } catch (error) {
         response(reply, 500, false, "", error.message);
