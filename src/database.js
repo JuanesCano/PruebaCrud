@@ -1,9 +1,18 @@
+import fastifyPlugin from 'fastify-plugin';
 import mongoose from 'mongoose';
 
-const uri = process.env.MONGO_URI;
+mongoose.set('strictQuery', false);
 
-export const connectDB = async () => {
-try {const db = await mongoose.connect(uri);
-console.log('base de datos conectada', db.connection.name);
-}
- catch (error) {console.log('error al conectar con la base de datos', error.message);}}
+async function connectDB(fastify, options){
+    try {
+        await mongoose.connect(options.uri, {
+            serverSelectionTimeoutMS: 3000
+        });
+        fastify.log.info('Base de datos conectada');
+    } catch (error) {
+        fastify.log.error('Error al conectar con la base de datos', error.message);
+        throw error;
+    }
+};
+
+export default fastifyPlugin(connectDB);

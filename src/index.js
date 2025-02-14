@@ -5,7 +5,8 @@ import userRoutes from './routes/userRoute.js';
 import postRoutes from './routes/postRoute.js';
 import fastifyEnv from '@fastify/env';
 import { optionsEnv } from "./configEnv.js"
-import { connectDB } from './database.js';
+import connectDB from './database.js';
+import "dotenv/config";
 
 const fastify = Fastify({ logger: true });
 
@@ -13,7 +14,7 @@ fastify.register(fastifyEnv, optionsEnv).ready((err) => { if (err) console.log(e
 
 fastify.register(cors, { origin: '*' });
 fastify.register(formBody);
-fastify.register(connectDB)
+fastify.register(connectDB, {uri: process.env.MONGO_URI});
 
 //rutas
 fastify.register(userRoutes, { prefix: "/user" });
