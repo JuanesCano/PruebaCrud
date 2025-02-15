@@ -5,7 +5,7 @@ const postCtrl = {};
 
 postCtrl.getPosts = async (req, reply) => {
     try {
-        const post = await postModel.find().populate({ path: "user", select: "name id" }).sort({ createdAt: -1 });
+        const post = await postModel.find().populate({ path: "user" }).sort({ createdAt: -1 });
         response(reply, 200, true, post, "Posts obtenidos correctamente");
     } catch (error) {
         response(reply, 500, false, "", error.message);
@@ -29,7 +29,7 @@ postCtrl.listOne = async (req, reply) => {
 
 postCtrl.getUserPost = async (req, reply) => {
     try {
-        const userId = req.userId;
+        const userId = req.user.id;
         const posts = await postModel.find({ user: userId }).sort({ createdAt: -1 });
         response(reply, 200, true, posts, "Posts del usuario obtenidos correctamente");
     } catch (error) {
