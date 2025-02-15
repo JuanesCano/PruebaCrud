@@ -32,6 +32,7 @@ export const verifyToken = async (req, reply) => {
         }
 
         req.user = user;
+        return
     } catch (err) {
         return messageNoAuth(reply);
     }
