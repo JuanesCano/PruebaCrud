@@ -29,7 +29,7 @@ postCtrl.listOne = async (req, reply) => {
 
 postCtrl.getUserPost = async (req, reply) => {
     try {
-        const userId = req.user.id;
+        const userId = req.user._id;
         const posts = await postModel.find({ user: userId }).sort({ createdAt: -1 });
         response(reply, 200, true, posts, "Posts del usuario obtenidos correctamente");
     } catch (error) {
