@@ -5,7 +5,7 @@ const postCtrl = {};
 
 postCtrl.getPosts = async (req, reply) => {
     try {
-        const post = await postModel.find().populate({path: "user", select: "name id"}).sort({createdAt: -1});
+        const post = await postModel.find().populate({ path: "user", select: "name id" }).sort({ createdAt: -1 });
         response(reply, 200, true, post, "Posts obtenidos correctamente");
     } catch (error) {
         response(reply, 500, false, "", error.message);
@@ -14,10 +14,10 @@ postCtrl.getPosts = async (req, reply) => {
 
 postCtrl.listOne = async (req, reply) => {
     try {
-        const {id} = req.params; 
+        const { id } = req.params;
         const post = await postModel.findById(id);
 
-        if(!post){
+        if (!post) {
             response(reply, 404, false, "", "Post no encontrado");
         };
 
@@ -27,11 +27,21 @@ postCtrl.listOne = async (req, reply) => {
     }
 };
 
+postCtrl.getUserPost = async (req, reply) => {
+    try {
+        const userId = req.userId;
+        const posts = await postModel.find({ user: userId }).sort({ createdAt: -1 });
+        response(reply, 200, true, posts, "Posts del usuario obtenidos correctamente");
+    } catch (error) {
+        response(reply, 500, false, "", error.message);
+    }
+}
+
 postCtrl.addPost = async (req, reply) => {
     try {
-        const {title, description} = req.body;
-        const newPost = new postModel ({title, description, user: req.userId});
-        
+        const { title, description } = req.body;
+        const newPost = new postModel({ title, description, user: req.userId });
+
         await newPost.save();
         response(reply, 201, true, newPost, "Post creado correctamente");
     } catch (error) {
@@ -44,7 +54,7 @@ postCtrl.updatePost = async (req, reply) => {
         const { id } = req.params;
         const post = await postModel.findById(id);
 
-        if(!post){
+        if (!post) {
             response(reply, 404, false, "", "Post no encontrado");
         };
 
@@ -60,7 +70,7 @@ postCtrl.deletePost = async (req, reply) => {
         const { id } = req.params;
         const post = await postModel.findById(id);
 
-        if(!post){
+        if (!post) {
             response(reply, 404, false, "", "Post no encontrado");
         };
 
