@@ -50,7 +50,6 @@ postCtrl.addPost = async (req, reply) => {
         const populatePost = await postModel.findById(newPost._id).populate("user", "name email");
 
         response(reply, 201, true, populatePost, "Post creado correctamente");
-        console.log(newPost)
     } catch (error) {
         response(reply, 500, false, "", error.message);
     }
