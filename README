@@ -1,0 +1,31 @@
+Este proyecto es un ejemplo de CRUD utilizando un Backend dockerizado y una base de datos MongoDB local tambien ejecutada en dockerizado
+
+Requisitos previos
+Antes de comenzar, asegurate de tener instalado
+
+Docker: version 20.x o superior
+
+Crear y Ejecutar el Contenedor de MongoDB antes de ejecutar el contenedor del Backend
+1. Crear y ejecutar un contenedor de MongoDB local en el puerto 27017:
+comando: docker run --name mongodb -d -p 27017:27017 mongo
+
+2. (Opcional) Si deseas persistir los datos para que no se pierdan después de reiniciar o detener el contenedor, usa el siguiente comando:
+comando: docker run --name mongodb -d -p 27017:27017 -v ~/data:/data/db mongo
+-----------------------------------------------------------------------------------------------------------------
+Construir y Ejecutar el Contenedor del Frontend
+1. Construir la imagen de Docker para el backend:
+comando: docker build -t pruebacrud .
+
+2. Ejecutar el contenedor del backend en el puerto 3000 crearearemos el contenedor del frontend para que nos de una url a la que ingresaremos a el front del crud:
+comando: docker run --env-file ./.env -p 3000:3000 pruebacrud
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Construir y Ejecutar el Contenedor del Frontend
+1. Construir la imagen de Docker para el frontend:
+comando: docker build -t pruebacrudfront .
+
+2. Ejecutar el contenedor del frontend en el puerto 5174:
+comando: docker run -p 5174:80 pruebacrudfront
+Esto hará que la aplicación esté disponible en http://localhost:5174.
+
+
+despues de hacer todos estos pasos ya solo queda que lo pruebes
